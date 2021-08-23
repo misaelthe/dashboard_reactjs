@@ -1,0 +1,8 @@
+.itemNavBar {
+  color: white;
+  font-size: medium;
+  font-weight: bold;
+}
+.containerItem {
+  display: inline-block;
+}
