@@ -27,7 +27,7 @@ export const AddCategory = ({ setCategories, limit }) => {
             }}
             value={category}
           />
-          <label for="inCategory">Category</label>
+          <label htmlFor="inCategory">Category</label>
         </div>
         <div className="form-floating col-md-2">
           <select
@@ -41,7 +41,7 @@ export const AddCategory = ({ setCategories, limit }) => {
             <option value="1">1</option>
             <option value="2">2</option>
           </select>
-          <label for="selRows">Number of rows</label>
+          <label htmlFor="selRows">Number of rows</label>
         </div>
         <div className="form-floating col-md-2">
           <select
@@ -55,7 +55,7 @@ export const AddCategory = ({ setCategories, limit }) => {
             <option value="4">2-4</option>
             <option value="6">3-6</option>
           </select>
-          <label for="selNumberImgs">Images per row</label>
+          <label htmlFor="selNumberImgs">Images per row</label>
         </div>
         <div className="d-grid gap-2 col-md-3">
           <button type="submit" className="btn btn-lg btn-outline-success">
