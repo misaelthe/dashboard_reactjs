@@ -11,7 +11,7 @@ const index = (
       <Route path="/home">
         <GIFViewer />
       </Route>
-      <Route path="/gifviewer">
+      <Route path="/">
         <GIFViewer />
       </Route>
     </Switch>
@@ -19,4 +19,3 @@ const index = (
 );
 const root = document.querySelector("#root");
 ReactDOM.render(index, root);
-//ReactDOM.render(<CounterApp valsito={8} />, root);
