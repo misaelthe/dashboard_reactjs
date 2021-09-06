@@ -1,12 +1,12 @@
 import React, { useState, useRef } from "react";
 import { AddCategory } from "./AddCategory.js";
 import GIFGrid from "./GIFGrid";
-//import "../../css/index.css";
-const GIFViewer = () => {
+import "../../css/GIFScreen.css";
+const GIFScreen = () => {
   const [categories, setCategories] = useState(["Invincible"]);
   const limit = useRef(4);
   return (
-    <div className="content">
+    <div id="gifscreen">
       <h2 id="heading">GIFViewer</h2>
 
       <AddCategory setCategories={setCategories} limit={limit} />
@@ -18,4 +18,4 @@ const GIFViewer = () => {
     </div>
   );
 };
-export default GIFViewer;
+export default GIFScreen;

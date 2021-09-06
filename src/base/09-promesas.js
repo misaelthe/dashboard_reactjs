@@ -1,5 +1,3 @@
-import { getHeroeById } from "./08-imp-exp";
-
 // const promesa = new Promise( (resolve, reject) => {
 
 //     setTimeout( () =>  {
@@ -22,7 +20,7 @@ export const getHeroeByIdAsync = (id) => {
     setTimeout(() => {
       // Tarea
       // importen el
-      const p1 = getHeroeById(id);
+      const p1 = 5;
       if (p1) {
         resolve(p1);
       } else {

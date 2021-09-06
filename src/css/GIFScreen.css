@@ -1,3 +1,6 @@
+#gifscreen {
+  width: 85%;
+}
 #gridContainer {
   display: flex;
   flex-direction: row;

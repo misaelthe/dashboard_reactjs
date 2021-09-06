@@ -3,7 +3,7 @@ import GIFGridItem from "./GIFGridItem";
 import { useFetchGIFs } from "../../hooks/useFetchGIFs";
 
 import PropTypes from "prop-types";
-import "../../css/GIFViewer.css";
+import "../../css/GIFScreen.css";
 
 const GIFGrid = ({ category, limit }) => {
   const { data, loading } = useFetchGIFs(category, 0, limit.current);

@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import "../../css/GIFViewer.css";
+import "../../css/GIFScreen.css";
 const GIFGridItem = ({ id, title, url, size }) => {
   const sizeCard = size === "large" ? "card-large" : "card-medium";
   console.log(sizeCard);
