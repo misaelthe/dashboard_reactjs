@@ -8,15 +8,15 @@ const JapaneseScreen = ({ history }) => {
   return (
     <div className={classes.container}>
       <AnimeGrid history={history} />
-      <CharactersGrid history={history} />
+      {/* <CharactersGrid history={history} /> */}
 
       <div>
         <h3 className={classes.header}>Manga</h3>
-        <MediaGrid history={history} typeItem="manga" />
+        {/* <MediaGrid history={history} typeItem="manga" /> */}
       </div>
       <div>
         <h3 className={classes.header}>People</h3>
-        <MediaGrid history={history} typeItem="people" />
+        {/* <MediaGrid history={history} typeItem="people" /> */}
       </div>
     </div>
   );

@@ -1,3 +1,4 @@
+import { ContactSupportOutlined } from "@material-ui/icons";
 import axios from "axios";
 const instance = axios.create({
   baseURL: `https://api.jikan.moe/v3`,
@@ -15,6 +16,7 @@ export const fetchTopCharacters = async (page) => {
   }
 };
 export const fetchTop = async (type, page, subType) => {
+  console.log("entanda");
   try {
     const {
       data: { top },
