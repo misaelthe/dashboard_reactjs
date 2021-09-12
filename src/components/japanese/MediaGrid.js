@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { fetchTopOnJikan } from "../../helpers/getMedia";
 import { createUseStyles } from "react-jss";
-import { AnimeItem } from "./AnimeItem";
+import { AnimeItem } from "./anime/AnimeItem";
 export const MediaGrid = ({ typeItem, history }) => {
   const classes = useStyles();
   const [items, setItems] = useState([]);

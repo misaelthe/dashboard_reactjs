@@ -14,3 +14,13 @@ export const fetchTopCharacters = async (page) => {
     return { data: null, status: 408, loading: false };
   }
 };
+export const fetchTop = async (type, page, subType) => {
+  try {
+    const {
+      data: { top },
+    } = await instance.get(`/top/${type}/${page}/${subType}`);
+    return top;
+  } catch (e) {
+    return null;
+  }
+};

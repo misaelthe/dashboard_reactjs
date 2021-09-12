@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { useFetchTopCharacters } from "../../../hooks/useFetchCharacters";
-import { AnimeItem } from "../AnimeItem";
+import { AnimeItem } from "../anime/AnimeItem";
 import { CharacterItem } from "./CharacterItem";
 export const CharactersGrid = ({ history }) => {
   const classes = styleSheet();

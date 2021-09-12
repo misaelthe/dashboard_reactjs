@@ -21,8 +21,8 @@ const NavBar = () => {
             <div className="imgItemNavBar">
               <Gif style={{ fontSize: 25 }} />
             </div>
-            <Link className="linkNavBar" to="/anime">
-              Anime
+            <Link className="linkNavBar" to="/japanese">
+              Japanese
             </Link>
           </div>
           <div className="containerItem">
