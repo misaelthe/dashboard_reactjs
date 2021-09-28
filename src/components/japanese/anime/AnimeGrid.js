@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useFetchTopJapanese } from "../../../hooks/useFetchTopJapanese";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/styles";
@@ -10,7 +10,8 @@ export const AnimeGrid = ({ history }) => {
   const subTypes = ["tv", "movie", "airing", "upcoming", "ova", "special"];
   const [index, setIndex] = useState(1);
   const [subType, setSubType] = useState(subTypes[0]);
-  const { data, status, loading, getTopJapanese } = useFetchTopJapanese(
+  const searchInput = useRef();
+  const { data, status, loading, msg, getTopJapanese } = useFetchTopJapanese(
     "anime",
     1,
     subType
@@ -19,12 +20,13 @@ export const AnimeGrid = ({ history }) => {
     setIndex(ix);
   };
   const changeSubType = (st) => {
-    getTopJapanese(1, st);
+    searchInput.current.value = "";
     setSubType(st);
+    getTopJapanese(1, st);
   };
   return (
-    <div>
-      <div className={classes.grid}>
+    <div className={classes.container}>
+      <div className={classes.control}>
         <h3 className={classes.headerText}>Top Anime</h3>
         <div className={classes.divComboBox}>
           <ComboBox
@@ -40,19 +42,18 @@ export const AnimeGrid = ({ history }) => {
                 Page
               </span>
               <input
-                type="text"
                 className="form-control"
                 aria-label="Sizing example input"
                 aria-describedby="inputGroup-sizing-sm"
                 type="number"
-                id="inputPage"
+                ref={searchInput}
               />
             </div>
             <button
               type="button"
               className={`btn btn-secondary ${classes.buttonSearch}`}
               onClick={() => {
-                const pageVal = document.getElementById("inputPage").value;
+                const pageVal = searchInput.current.value;
                 getTopJapanese(pageVal, subType);
                 setIndex(1);
               }}
@@ -71,9 +72,9 @@ export const AnimeGrid = ({ history }) => {
       </div>
       <div className={classes.grid}>
         {loading && <CircularProgress size={50} />}
-        {status === 408 ? (
+        {status === -1 ? (
           <div className="alert alert-danger" role="alert">
-            Server Timeout
+            {msg}
           </div>
         ) : (
           data.slice(5 * index - 5, 5 * index).map((item) => {
@@ -87,12 +88,23 @@ export const AnimeGrid = ({ history }) => {
   );
 };
 const styleSheet = makeStyles({
-  grid: {
+  container: { height: "450px", overflow: "hidden" },
+  control: {
     display: "flex",
     justifyContent: "space-around",
     flexDirection: "row",
     flexWrap: "nowrap",
     width: "100%",
+    height: "100px",
+  },
+  grid: {
+    display: "flex",
+    justifyContent: "space-around",
+    alignItems: "center",
+    flexDirection: "row",
+    flexWrap: "nowrap",
+    width: "100%",
+    height: "350px",
   },
   headerText: {
     fontSize: "27pt",

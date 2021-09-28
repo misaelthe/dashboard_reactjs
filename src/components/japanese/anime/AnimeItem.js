@@ -5,7 +5,11 @@ export const AnimeItem = ({ data, history }) => {
   console.log(data);
   return (
     <div className={`card bg-dark text-white ${classes.container}`}>
-      <img src={data.image_url} className="card-img" alt={data.title} />
+      <img
+        src={data.image_url}
+        className={`card-img ${classes.img}`}
+        alt={data.title}
+      />
       <div className="card-img-overlay">
         <h5 className="card-title">{data.title}</h5>
       </div>
@@ -13,5 +17,6 @@ export const AnimeItem = ({ data, history }) => {
   );
 };
 const styleSheet = makeStyles({
-  container: { width: "16%" },
+  container: { width: "16%", height: "100%" },
+  img: { height: "100%" },
 });

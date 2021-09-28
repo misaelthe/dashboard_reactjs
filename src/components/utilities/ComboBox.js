@@ -13,9 +13,9 @@ export const ComboBox = ({ arrayValues, dftItem, setter }) => {
               setter(item);
             }}
           >
-            <a className="dropdown-item">
+            <span className="dropdown-item">
               {item.charAt(0).toUpperCase() + item.slice(1)}
-            </a>
+            </span>
           </li>
         );
       }
