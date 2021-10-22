@@ -5,6 +5,7 @@ import HomeScreen from "../components/home/HomeScreen";
 import NavBar from "../ui/NavBar";
 import "../css/dashboard.css";
 import JapaneseScreen from "../components/japanese/JapaneseScreen";
+import { JapaneseSearchPage } from "../components/japanese/search/JapaneseSearchPage";
 
 const DashboardRoutes = () => {
   return (
@@ -13,6 +14,8 @@ const DashboardRoutes = () => {
       <Switch>
         <Route path="/home" component={HomeScreen} />
         <Route exact path="/japanese" component={JapaneseScreen} />
+        <Route exact path="/japanese/search" component={JapaneseSearchPage} />
+
         {/* <Route
           exact
           path="/anime/:type/:mal_id"

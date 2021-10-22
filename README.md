@@ -10,6 +10,10 @@ alt+shift+updown
 [x] Show message if page doesnt exists
 [x] Withdraw some functions in MangaScreen to reuse
 
+## 1.3
+
+- Types of anime and manga for combobox added, they load dynamically
+
 ## 1.1
 
 - reset --hard screwed my work

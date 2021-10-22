@@ -21,6 +21,6 @@ export const fetchSearch = async (type, q, page) => {
     } = await instance.get(`/search/${type}?q=${q}&${page}`);
     return results;
   } catch (e) {
-    return null;
+    throw "No se pudo conseguir la data";
   }
 };

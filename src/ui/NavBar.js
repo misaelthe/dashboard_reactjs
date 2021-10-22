@@ -24,6 +24,14 @@ const NavBar = () => {
             <Link className="linkNavBar" to="/japanese">
               Japanese
             </Link>
+          </div>{" "}
+          <div className="containerItem">
+            <div className="imgItemNavBar">
+              <Gif style={{ fontSize: 25 }} />
+            </div>
+            <Link className="linkNavBar" to="/japanese/search">
+              Search
+            </Link>
           </div>
           <div className="containerItem">
             <div className="imgItemNavBar">

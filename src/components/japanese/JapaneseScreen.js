@@ -2,13 +2,12 @@ import React from "react";
 import { makeStyles } from "@material-ui/styles";
 import { CharactersGrid } from "./characters/CharactersGrid";
 import { AnimeGrid } from "./anime/AnimeGrid";
-import { SearchGrid } from "./search/SearchGrid";
+import { JapaneseSearchPage } from "./search/JapaneseSearchPage";
 const JapaneseScreen = ({ history }) => {
   const classes = styleSheet();
   return (
     <div className={classes.container}>
       <AnimeGrid history={history} />
-      {/* <CharactersGrid history={history} /> */}
 
       <div>
         <h3 className={classes.header}>Manga</h3>
@@ -16,7 +15,6 @@ const JapaneseScreen = ({ history }) => {
       <div>
         <h3 className={classes.header}>People</h3>
       </div>
-      <SearchGrid />
     </div>
   );
 };

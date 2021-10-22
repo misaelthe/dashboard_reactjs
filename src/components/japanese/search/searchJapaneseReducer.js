@@ -1,18 +1,13 @@
-import React from "react";
-
 export const searchJapaneseReducer = (state, action) => {
   switch (action.type) {
+    case "loadingSearch":
+      console.log(state);
+      return { ...state, loading: action.payload.loading };
     case "search":
       return { ...state, ...action.payload };
-    case "searchPage":
-      return { ...state, page: action.payload.page };
-    case "searchType":
-      return { ...state, type: action.payload.type };
-    case "asas":
-      break;
+    case "error":
+      return { ...state, ...action.payload };
     default:
-      console.log("enen");
-      return { ...state, type: "primerstate" };
+      return state;
   }
-  return <div></div>;
 };
