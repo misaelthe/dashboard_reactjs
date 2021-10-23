@@ -1,8 +1,13 @@
-import React, { useEffect, useReducer, useRef, useState } from "react";
+import React, { useEffect, useReducer, useRef } from "react";
 import { makeStyles } from "@material-ui/styles";
-import TYPES from "../../../constants/cntJapanese";
+import {
+  JP_GENRES,
+  JP_REDUCER,
+  JP_TYPES,
+  JP_UNITS,
+} from "../../../constants/cntJapanese";
 import styled from "styled-components";
-import LocalOfferIcon from "@mui/icons-material/LocalOffer";
+import { LocalOffer, CheckCircle } from "@mui/icons-material";
 import {
   Typography,
   TextField,
@@ -10,29 +15,35 @@ import {
   Grid,
   Autocomplete,
   Box,
+  Chip,
 } from "@mui/material";
 import { reducerJapaneseSearchBar } from "../../../reducers/reducerJapaneseSearchBar";
-import CONST_JAP from "../../../constants/cntJapanese";
 
 export const SearchBar = ({ cboItems, handleSearch }) => {
-  const styles = {
-    input: {
-      backgrounColor: "white",
-      color: "white",
-    },
-  };
+  const animeGenres = useRef(
+    JP_GENRES.filter(
+      (e) => e.type === JP_UNITS.shared || e.type === JP_UNITS.anime
+    )
+  );
+  const mangaGenres = useRef(
+    JP_GENRES.filter(
+      (e) => e.type === JP_UNITS.shared || e.type === JP_UNITS.manga
+    )
+  );
   const initState = {
     type: null,
     q: "",
     page: 1,
     genreOptions: [],
     genreDisabled: true,
+    selectedGenres: [],
   };
   const [searchParameters, dispatch] = useReducer(
     reducerJapaneseSearchBar,
     initState
   );
-  const { type, q, page, genreDisabled, genreOptions } = searchParameters;
+  const { type, q, page, genreDisabled, genreOptions, selectedGenres } =
+    searchParameters;
   const errorQ = searchParameters.q.length < 3;
   const errorPage = searchParameters.page < 1;
   useEffect(() => {
@@ -46,112 +57,169 @@ export const SearchBar = ({ cboItems, handleSearch }) => {
       }
     }, 1000);
   }, [type, q, page]);
-  console.log("bolena" + genreDisabled);
+  //EVENT HANDLERS
+  const handleChangeType = (event, typeSelected) => {
+    const type = typeSelected && typeSelected.name;
+    let genreOptions = [];
+    let genreDisabled = true;
+    if (JP_UNITS.anime === type) {
+      genreOptions = animeGenres.current.map((el) => {
+        return { id: el.id, name: el.name, selected: false };
+      });
+      genreDisabled = false;
+      console.log(genreDisabled);
+    } else if (JP_UNITS.manga === type) {
+      genreOptions = mangaGenres.current.map((el) => {
+        return { ...el, selected: false };
+      });
+      genreDisabled = false;
+    }
+
+    dispatch({
+      type: JP_REDUCER.SET_TYPE,
+      payload: {
+        type,
+        genreDisabled,
+        genreOptions,
+      },
+    });
+  };
+  const handleChangeGenre = (event, genres) => {
+    //console.log(genres);
+    dispatch({
+      type: JP_REDUCER.SET_GENRE,
+      payload: { selectedGenres: genres },
+    });
+  };
+  const handleDeleteGenre = (id) => {
+    dispatch({
+      type: JP_REDUCER.REMOVE_GENRE,
+      payload: { id_genre: parseInt(id) },
+    });
+  };
+
   return (
     <Container>
-      <Paper elevation={3}>
+      <Box my={1}>
+        <Paper elevation={3}>
+          <Grid
+            container
+            direction="row"
+            columnSpacing={3}
+            justifyContent="center"
+            p={6}
+          >
+            <Grid item>
+              <Autocomplete
+                id="typeSelector"
+                options={JP_TYPES}
+                getOptionLabel={(option) => option.name}
+                sx={{ width: 200 }}
+                onChange={(event, typeSelected) =>
+                  handleChangeType(event, typeSelected)
+                }
+                renderInput={(params) => (
+                  <TextField {...params} label="Type *" />
+                )}
+              />
+            </Grid>
+            <Grid item>
+              <TextField
+                required
+                id="nameText"
+                label="Nombre"
+                variant="standard"
+                error={errorQ}
+                helperText={errorQ && "Must be greater than 2 letters"}
+                onChange={({ target: { value } }) => {
+                  dispatch({ type: JP_REDUCER.SET_Q, payload: { q: value } });
+                }}
+              />
+            </Grid>
+            <Grid item>
+              <TextField
+                id="pageText"
+                label="Page"
+                variant="standard"
+                defaultValue={1}
+                type="number"
+                error={errorPage}
+                helperText={errorPage && "Can't be less than 1"}
+                onChange={({ target: { value } }) => {
+                  dispatch({
+                    type: JP_REDUCER.SET_PAGE,
+                    payload: { page: parseInt(value, 10) },
+                  });
+                }}
+              />
+            </Grid>
+            <Grid item>
+              <Autocomplete
+                id="genreSelector"
+                freeSolo
+                multiple
+                limitTags={2}
+                disabled={genreDisabled}
+                options={genreOptions}
+                getOptionLabel={(option) => option.name}
+                sx={{ width: 300 }}
+                onChange={(event, newGenre) =>
+                  handleChangeGenre(event, newGenre)
+                }
+                value={selectedGenres}
+                renderInput={(params) => (
+                  <TextField {...params} multiline={false} label="Genre" />
+                )}
+                renderOption={(props, option) => (
+                  <Box component="li" {...props}>
+                    <Grid
+                      container
+                      direction="row"
+                      justifyContent="space-between"
+                    >
+                      <Grid item>{option.name}</Grid>
+                      <Grid item>
+                        {option.selected && (
+                          <CheckCircle style={{ color: "#34373C" }} />
+                        )}
+                      </Grid>
+                    </Grid>
+                  </Box>
+                )}
+              />
+            </Grid>
+          </Grid>
+        </Paper>
+      </Box>
+      <Box my={1}>
         <Grid
           container
+          spacing={2}
           direction="row"
-          columnSpacing={3}
-          justifyContent="center"
-          direction="row"
-          px={3}
-          py={3}
+          justifyContent="flex-start"
+          p={1}
         >
           <Grid item>
-            <Autocomplete
-              id="typeSelector"
-              options={CONST_JAP.types}
-              getOptionLabel={(option) => option.name}
-              sx={{ width: 200 }}
-              onChange={(event, typeSelected) => {
-                const type = typeSelected && typeSelected.name;
-                let genreOptions = [];
-                let genreDisabled = true;
-                if (CONST_JAP.anime === type) {
-                  genreOptions = [
-                    ...CONST_JAP.genres.shared,
-                    ...CONST_JAP.genres.anime,
-                  ];
-                  genreDisabled = false;
-                  console.log(genreDisabled);
-                } else if (CONST_JAP.manga === type) {
-                  genreOptions = [
-                    ...CONST_JAP.genres.shared,
-                    ...CONST_JAP.genres.manga,
-                  ];
-                  genreDisabled = false;
-                }
-                dispatch({
-                  type: CONST_JAP.SET_TYPE,
-                  payload: {
-                    type,
-                    genreDisabled,
-                    genreOptions,
-                  },
-                });
-              }}
-              renderInput={(params) => <TextField {...params} label="Type *" />}
-            />
+            <LocalOffer />
           </Grid>
-          <Grid item>
-            <TextField
-              required
-              id="nameText"
-              label="Nombre"
-              variant="standard"
-              helperText="Required"
-              error={errorQ}
-              helperText={errorQ && "Must be greater than 2 letters"}
-              onChange={({ target: { value } }) => {
-                dispatch({ type: CONST_JAP.SET_Q, payload: { q: value } });
-              }}
-            />
-          </Grid>
-          <Grid item>
-            <TextField
-              id="pageText"
-              label="Page"
-              variant="standard"
-              defaultValue={1}
-              type="number"
-              error={errorPage}
-              helperText={errorPage && "Can't be less than 1"}
-              onChange={({ target: { value } }) => {
-                dispatch({
-                  type: CONST_JAP.SET_PAGE,
-                  payload: { page: parseInt(value, 10) },
-                });
-              }}
-            />
-          </Grid>
-          <Grid item>
-            <Autocomplete
-              id="genreSelector"
-              freeSolo
-              disabled={genreDisabled}
-              options={genreOptions}
-              getOptionLabel={(option) => option.name}
-              sx={{ width: 200 }}
-              onChange={(event, newType) => {
-                console.log(newType);
-                dispatch({
-                  type: CONST_JAP.SET_TYPE,
-                  payload: { type: newType && newType.label },
-                });
-              }}
-              renderInput={(params) => <TextField {...params} label="Genre" />}
-            />
-          </Grid>
+          {selectedGenres.map((genre) => {
+            return (
+              <Grid item key={genre.id}>
+                <Chip
+                  clickable
+                  label={genre.name}
+                  variant="outlined"
+                  onDelete={() => handleDeleteGenre(genre.id)}
+                />
+              </Grid>
+            );
+          })}
         </Grid>
-      </Paper>
-      <Box sx={{ flexDirection: "row" }}>
-        <LocalOfferIcon />
       </Box>
     </Container>
   );
 };
+
 const Container = styled.div`
   background-color: white;
   width: 100%;
@@ -165,7 +233,6 @@ const styleSheet = makeStyles({
     width: "100%",
   },
 });
-
 /*
 --si selecciona uno que se quedero
 --si selecciona 2 q se cambie a various

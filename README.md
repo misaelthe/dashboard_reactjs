@@ -10,6 +10,13 @@ alt+shift+updown
 [x] Show message if page doesnt exists
 [x] Withdraw some functions in MangaScreen to reuse
 
+## 1.3.5
+
+- Genre Combo Box, showing active values, if not selected the state is updated.
+- Genre Tags updating the state if eliminated
+- Some onChange methods have been put in an independent function
+- Some padding added
+
 ## 1.3
 
 - Types of anime and manga for combobox added, they load dynamically
