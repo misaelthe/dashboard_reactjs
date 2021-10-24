@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useRef } from "react";
+import React, { useCallback, useEffect, useReducer, useRef } from "react";
 import { makeStyles } from "@material-ui/styles";
 import {
   JP_GENRES,
@@ -8,15 +8,7 @@ import {
 } from "../../../constants/cntJapanese";
 import styled from "styled-components";
 import { LocalOffer, CheckCircle } from "@mui/icons-material";
-import {
-  Typography,
-  TextField,
-  Paper,
-  Grid,
-  Autocomplete,
-  Box,
-  Chip,
-} from "@mui/material";
+import { TextField, Paper, Grid, Autocomplete, Box, Chip } from "@mui/material";
 import { reducerJapaneseSearchBar } from "../../../reducers/reducerJapaneseSearchBar";
 
 export const SearchBar = ({ cboItems, handleSearch }) => {
@@ -46,17 +38,19 @@ export const SearchBar = ({ cboItems, handleSearch }) => {
     searchParameters;
   const errorQ = searchParameters.q.length < 3;
   const errorPage = searchParameters.page < 1;
+  const hdlSearch = useCallback(
+    (type, q, page, genres) => {
+      handleSearch(type, q, page, genres);
+    },
+    [handleSearch]
+  );
   useEffect(() => {
     setTimeout(() => {
-      if (
-        searchParameters.type != null &&
-        searchParameters.q.length > 2 &&
-        searchParameters.page > 0
-      ) {
-        handleSearch(searchParameters);
+      if (type != null && q.length > 2 && page > 0) {
+        hdlSearch(type, q, page, selectedGenres);
       }
     }, 1000);
-  }, [type, q, page]);
+  }, [type, q, page, selectedGenres, hdlSearch]);
   //EVENT HANDLERS
   const handleChangeType = (event, typeSelected) => {
     const type = typeSelected && typeSelected.name;
@@ -163,9 +157,12 @@ export const SearchBar = ({ cboItems, handleSearch }) => {
                 options={genreOptions}
                 getOptionLabel={(option) => option.name}
                 sx={{ width: 300 }}
-                onChange={(event, newGenre) =>
-                  handleChangeGenre(event, newGenre)
-                }
+                onChange={(event, newGenre) => {
+                  console.log("genres selected");
+                  console.log(newGenre);
+
+                  handleChangeGenre(event, newGenre);
+                }}
                 value={selectedGenres}
                 renderInput={(params) => (
                   <TextField {...params} multiline={false} label="Genre" />
@@ -191,6 +188,7 @@ export const SearchBar = ({ cboItems, handleSearch }) => {
           </Grid>
         </Paper>
       </Box>
+
       <Box my={1}>
         <Grid
           container

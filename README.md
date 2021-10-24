@@ -5,10 +5,8 @@ ctrl+shift+enter new line above
 ctrl+shift+l -------------------
 ctrl+shift+k
 alt+shift+updown
-[x] Improved styles in MangaGrid
-[x] Reset index when page changes
-[x] Show message if page doesnt exists
-[x] Withdraw some functions in MangaScreen to reuse
+[x] The header of the text field isnt showing correctly
+[x] Use usememo to dont recalculate the genres
 
 ## 1.3.5
 

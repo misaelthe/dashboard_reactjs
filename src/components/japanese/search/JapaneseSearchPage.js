@@ -1,5 +1,4 @@
-import React, { useEffect, useReducer, useRef, useState } from "react";
-import { makeStyles } from "@material-ui/styles";
+import React, { useEffect, useRef, useState } from "react";
 import { SearchBar } from "./SearchBar";
 import { fetchSearch } from "../../../helpers/getJapaneseStuff";
 import { JapaneseItem } from "../JapaneseItem";
@@ -9,14 +8,10 @@ export const JapaneseSearchPage = () => {
   const [data, setData] = useState([]);
   const classes = styleSheet;
 
-  const handleSearch = (searchParameters) => {
+  const handleSearch = (type, q, page, genres) => {
     console.log("llamara al fetchsearc");
 
-    fetchSearch(
-      searchParameters.type,
-      searchParameters.q,
-      searchParameters.page
-    )
+    fetchSearch(type, q, page)
       .then((res) => {
         console.log("trae los resultaoss");
         setData(res);
