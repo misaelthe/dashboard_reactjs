@@ -1,7 +1,8 @@
-import React, { useCallback, useEffect, useReducer, useRef } from "react";
-import { makeStyles } from "@material-ui/styles";
+import React, { useEffect, useReducer } from "react";
+
 import {
-  JP_GENRES,
+  JP_ANIME_GENRES,
+  JP_MANGA_GENRES,
   JP_REDUCER,
   JP_TYPES,
   JP_UNITS,
@@ -11,17 +12,7 @@ import { LocalOffer, CheckCircle } from "@mui/icons-material";
 import { TextField, Paper, Grid, Autocomplete, Box, Chip } from "@mui/material";
 import { reducerJapaneseSearchBar } from "../../../reducers/reducerJapaneseSearchBar";
 
-export const SearchBar = ({ cboItems, handleSearch }) => {
-  const animeGenres = useRef(
-    JP_GENRES.filter(
-      (e) => e.type === JP_UNITS.shared || e.type === JP_UNITS.anime
-    )
-  );
-  const mangaGenres = useRef(
-    JP_GENRES.filter(
-      (e) => e.type === JP_UNITS.shared || e.type === JP_UNITS.manga
-    )
-  );
+export const SearchBar = ({ handleSearch }) => {
   const initState = {
     type: null,
     q: "",
@@ -38,37 +29,27 @@ export const SearchBar = ({ cboItems, handleSearch }) => {
     searchParameters;
   const errorQ = searchParameters.q.length < 3;
   const errorPage = searchParameters.page < 1;
-  const hdlSearch = useCallback(
-    (type, q, page, genres) => {
-      handleSearch(type, q, page, genres);
-    },
-    [handleSearch]
-  );
+
   useEffect(() => {
+    console.log("se ejecuto :(");
     setTimeout(() => {
       if (type != null && q.length > 2 && page > 0) {
-        hdlSearch(type, q, page, selectedGenres);
+        handleSearch(type.toLowerCase(), q, page, selectedGenres);
       }
-    }, 1000);
-  }, [type, q, page, selectedGenres, hdlSearch]);
+    }, 2000);
+  }, [type, q, page, selectedGenres, handleSearch]);
   //EVENT HANDLERS
   const handleChangeType = (event, typeSelected) => {
     const type = typeSelected && typeSelected.name;
     let genreOptions = [];
     let genreDisabled = true;
     if (JP_UNITS.anime === type) {
-      genreOptions = animeGenres.current.map((el) => {
-        return { id: el.id, name: el.name, selected: false };
-      });
+      genreOptions = JP_ANIME_GENRES;
       genreDisabled = false;
-      console.log(genreDisabled);
     } else if (JP_UNITS.manga === type) {
-      genreOptions = mangaGenres.current.map((el) => {
-        return { ...el, selected: false };
-      });
+      genreOptions = JP_MANGA_GENRES;
       genreDisabled = false;
     }
-
     dispatch({
       type: JP_REDUCER.SET_TYPE,
       payload: {
@@ -79,7 +60,6 @@ export const SearchBar = ({ cboItems, handleSearch }) => {
     });
   };
   const handleChangeGenre = (event, genres) => {
-    //console.log(genres);
     dispatch({
       type: JP_REDUCER.SET_GENRE,
       payload: { selectedGenres: genres },
@@ -155,15 +135,12 @@ export const SearchBar = ({ cboItems, handleSearch }) => {
                 limitTags={2}
                 disabled={genreDisabled}
                 options={genreOptions}
+                value={selectedGenres}
                 getOptionLabel={(option) => option.name}
                 sx={{ width: 300 }}
-                onChange={(event, newGenre) => {
-                  console.log("genres selected");
-                  console.log(newGenre);
-
-                  handleChangeGenre(event, newGenre);
+                onChange={(event, options) => {
+                  handleChangeGenre(event, options);
                 }}
-                value={selectedGenres}
                 renderInput={(params) => (
                   <TextField {...params} multiline={false} label="Genre" />
                 )}
@@ -176,7 +153,7 @@ export const SearchBar = ({ cboItems, handleSearch }) => {
                     >
                       <Grid item>{option.name}</Grid>
                       <Grid item>
-                        {option.selected && (
+                        {selectedGenres.includes(option) && (
                           <CheckCircle style={{ color: "#34373C" }} />
                         )}
                       </Grid>
@@ -197,21 +174,25 @@ export const SearchBar = ({ cboItems, handleSearch }) => {
           justifyContent="flex-start"
           p={1}
         >
-          <Grid item>
-            <LocalOffer />
-          </Grid>
-          {selectedGenres.map((genre) => {
-            return (
-              <Grid item key={genre.id}>
-                <Chip
-                  clickable
-                  label={genre.name}
-                  variant="outlined"
-                  onDelete={() => handleDeleteGenre(genre.id)}
-                />
+          {selectedGenres.length > 0 && (
+            <>
+              <Grid item>
+                <LocalOffer />
               </Grid>
-            );
-          })}
+              {selectedGenres.map((genre) => {
+                return (
+                  <Grid item key={genre.id}>
+                    <Chip
+                      clickable
+                      label={genre.name}
+                      variant="outlined"
+                      onDelete={() => handleDeleteGenre(genre.id)}
+                    />
+                  </Grid>
+                );
+              })}
+            </>
+          )}
         </Grid>
       </Box>
     </Container>
@@ -223,15 +204,3 @@ const Container = styled.div`
   width: 100%;
   padding: 5%;
 `;
-const styleSheet = makeStyles({
-  container: {
-    display: "flex",
-    justifyContent: "center",
-    height: "50px",
-    width: "100%",
-  },
-});
-/*
---si selecciona uno que se quedero
---si selecciona 2 q se cambie a various
-*/

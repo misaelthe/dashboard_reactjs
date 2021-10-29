@@ -8,6 +8,15 @@ alt+shift+updown
 [x] The header of the text field isnt showing correctly
 [x] Use usememo to dont recalculate the genres
 
+## 1.3.8
+
+- Messages and code status added and working, they are showed in an Alert with distinctive colors
+
+## 1.3.7
+
+- Issue with genreOptions and selectedGenres fixed
+- Implementing detch method to receive genres as another parameter
+
 ## 1.3.5
 
 - Genre Combo Box, showing active values, if not selected the state is updated.

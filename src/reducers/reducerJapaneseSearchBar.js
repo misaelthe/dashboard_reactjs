@@ -13,23 +13,9 @@ export const reducerJapaneseSearchBar = (state, action) => {
     case JP_REDUCER.SET_PAGE:
       return { ...state, page: action.payload.page };
     case JP_REDUCER.SET_GENRE:
-      console.log("setting");
-      const selectedGenres = action.payload.selectedGenres.map((val) => {
-        return { ...val, selected: true };
-      });
-      const idsGenres = selectedGenres.map((val) => val.id);
-      const genreOptions = state.genreOptions.map((val) => {
-        if (idsGenres.includes(val.id)) {
-          return { ...val, selected: !val.selected };
-        }
-        return val;
-      });
-      console.log(selectedGenres);
-      console.log(genreOptions);
       return {
         ...state,
-        selectedGenres: selectedGenres,
-        genreOptions: genreOptions,
+        selectedGenres: action.payload.selectedGenres,
       };
     case JP_REDUCER.REMOVE_GENRE:
       const activeGenres = state.selectedGenres.filter((val) => {
