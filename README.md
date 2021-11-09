@@ -5,8 +5,14 @@ ctrl+shift+enter new line above
 ctrl+shift+l -------------------
 ctrl+shift+k
 alt+shift+updown
-[x] The header of the text field isnt showing correctly
-[x] Use usememo to dont recalculate the genres
+
+## 1.4
+
+- Padding fixed in grid
+- Genre selector, now not growing when the user selects various genres, or at least not when the page is full-width screen
+- New component created: CustomAlert
+- Helper text of textfield changing height of parent, now fixed with an space character
+-
 
 ## 1.3.8
 

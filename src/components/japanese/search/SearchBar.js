@@ -1,5 +1,4 @@
-import React, { useEffect, useReducer } from "react";
-
+import { useEffect, useReducer } from "react";
 import {
   JP_ANIME_GENRES,
   JP_MANGA_GENRES,
@@ -7,7 +6,7 @@ import {
   JP_TYPES,
   JP_UNITS,
 } from "../../../constants/cntJapanese";
-import styled from "styled-components";
+//import styled from "styled-components";
 import { LocalOffer, CheckCircle } from "@mui/icons-material";
 import { TextField, Paper, Grid, Autocomplete, Box, Chip } from "@mui/material";
 import { reducerJapaneseSearchBar } from "../../../reducers/reducerJapaneseSearchBar";
@@ -25,13 +24,13 @@ export const SearchBar = ({ handleSearch }) => {
     reducerJapaneseSearchBar,
     initState
   );
+  //VARIABLES
   const { type, q, page, genreDisabled, genreOptions, selectedGenres } =
     searchParameters;
-  const errorQ = searchParameters.q.length < 3;
-  const errorPage = searchParameters.page < 1;
-
+  const errorQ = q.length < 3;
+  const errorPage = page < 1;
+  //HOOKS
   useEffect(() => {
-    console.log("se ejecuto :(");
     setTimeout(() => {
       if (type != null && q.length > 2 && page > 0) {
         handleSearch(type.toLowerCase(), q, page, selectedGenres);
@@ -73,111 +72,132 @@ export const SearchBar = ({ handleSearch }) => {
   };
 
   return (
-    <Container>
-      <Box my={1}>
+    <>
+      <Box p={2}>
         <Paper elevation={3}>
-          <Grid
-            container
-            direction="row"
-            columnSpacing={3}
-            justifyContent="center"
-            p={6}
-          >
-            <Grid item>
-              <Autocomplete
-                id="typeSelector"
-                options={JP_TYPES}
-                getOptionLabel={(option) => option.name}
-                sx={{ width: 200 }}
-                onChange={(event, typeSelected) =>
-                  handleChangeType(event, typeSelected)
-                }
-                renderInput={(params) => (
-                  <TextField {...params} label="Type *" />
-                )}
-              />
-            </Grid>
-            <Grid item>
-              <TextField
-                required
-                id="nameText"
-                label="Nombre"
-                variant="standard"
-                error={errorQ}
-                helperText={errorQ && "Must be greater than 2 letters"}
-                onChange={({ target: { value } }) => {
-                  dispatch({ type: JP_REDUCER.SET_Q, payload: { q: value } });
-                }}
-              />
-            </Grid>
-            <Grid item>
-              <TextField
-                id="pageText"
-                label="Page"
-                variant="standard"
-                defaultValue={1}
-                type="number"
-                error={errorPage}
-                helperText={errorPage && "Can't be less than 1"}
-                onChange={({ target: { value } }) => {
-                  dispatch({
-                    type: JP_REDUCER.SET_PAGE,
-                    payload: { page: parseInt(value, 10) },
-                  });
-                }}
-              />
-            </Grid>
-            <Grid item>
-              <Autocomplete
-                id="genreSelector"
-                freeSolo
-                multiple
-                limitTags={2}
-                disabled={genreDisabled}
-                options={genreOptions}
-                value={selectedGenres}
-                getOptionLabel={(option) => option.name}
-                sx={{ width: 300 }}
-                onChange={(event, options) => {
-                  handleChangeGenre(event, options);
-                }}
-                renderInput={(params) => (
-                  <TextField {...params} multiline={false} label="Genre" />
-                )}
-                renderOption={(props, option) => (
-                  <Box component="li" {...props}>
-                    <Grid
-                      container
-                      direction="row"
-                      justifyContent="space-between"
-                    >
-                      <Grid item>{option.name}</Grid>
-                      <Grid item>
-                        {selectedGenres.includes(option) && (
-                          <CheckCircle style={{ color: "#34373C" }} />
-                        )}
+          <Box px={2} py={5}>
+            <Grid
+              container
+              direction="row"
+              columnSpacing={4}
+              justifyContent="center"
+            >
+              <Grid item lg={3} sm={4}>
+                <TextField
+                  required
+                  id="nameText"
+                  label="Nombre"
+                  variant="standard"
+                  error={errorQ}
+                  sx={{ width: "100%" }}
+                  helperText={errorQ ? "Greater than 2 letters" : " "}
+                  onChange={({ target: { value } }) => {
+                    dispatch({ type: JP_REDUCER.SET_Q, payload: { q: value } });
+                  }}
+                />
+              </Grid>
+              <Grid item lg={2} sm={4}>
+                <Autocomplete
+                  id="typeSelector"
+                  options={JP_TYPES}
+                  getOptionLabel={(option) => option.name}
+                  onChange={(event, typeSelected) =>
+                    handleChangeType(event, typeSelected)
+                  }
+                  renderInput={(params) => (
+                    <TextField {...params} label="Type *" variant="standard" />
+                  )}
+                />
+              </Grid>
+              <Grid item lg={3} sm={4}>
+                <Autocomplete
+                  id="genreSelector"
+                  freeSolo
+                  multiple
+                  disabled={genreDisabled}
+                  options={genreOptions}
+                  value={selectedGenres}
+                  getOptionLabel={(option) => option.name}
+                  onChange={(event, options) => {
+                    console.log(options);
+                    handleChangeGenre(event, options);
+                  }}
+                  renderTags={(values) => {
+                    const tags = [
+                      <Chip
+                        clickable
+                        label={values[0].name}
+                        key={values[0].name}
+                        variant="outlined"
+                        onDelete={() => handleDeleteGenre(values[0].id)}
+                      />,
+                    ];
+                    if (values.length > 1) {
+                      tags.push(
+                        <Chip
+                          clickable
+                          label={`+${values.length - 1}`}
+                          key={values.length}
+                          variant="outlined"
+                        />
+                      );
+                    }
+                    return tags;
+                  }}
+                  disableListWrap={true}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Genre" variant="standard" />
+                  )}
+                  renderOption={(props, option) => (
+                    <Box component="li" {...props}>
+                      <Grid
+                        container
+                        direction="row"
+                        justifyContent="space-between"
+                      >
+                        <Grid item>{option.name}</Grid>
+                        <Grid item>
+                          {selectedGenres.includes(option) && (
+                            <CheckCircle style={{ color: "#34373C" }} />
+                          )}
+                        </Grid>
                       </Grid>
-                    </Grid>
-                  </Box>
-                )}
-              />
+                    </Box>
+                  )}
+                />
+              </Grid>
+              <Grid item lg={1} sm={3}>
+                <TextField
+                  id="pageText"
+                  label="Page"
+                  variant="standard"
+                  defaultValue={1}
+                  type="number"
+                  error={errorPage}
+                  helperText={errorPage ? "Not less than 1" : " "}
+                  onChange={({ target: { value } }) => {
+                    dispatch({
+                      type: JP_REDUCER.SET_PAGE,
+                      payload: { page: parseInt(value, 10) },
+                    });
+                  }}
+                />
+              </Grid>
             </Grid>
-          </Grid>
+          </Box>
         </Paper>
       </Box>
-
-      <Box my={1}>
-        <Grid
-          container
-          spacing={2}
-          direction="row"
-          justifyContent="flex-start"
-          p={1}
-        >
-          {selectedGenres.length > 0 && (
+      {selectedGenres.length > 1 && (
+        <Box px={2}>
+          <Grid
+            container
+            columnSpacing={2}
+            direction="row"
+            justifyContent="flex-start"
+          >
             <>
               <Grid item>
-                <LocalOffer />
+                <LocalOffer sx={{ color: "#808191" }} />
               </Grid>
               {selectedGenres.map((genre) => {
                 return (
@@ -186,21 +206,22 @@ export const SearchBar = ({ handleSearch }) => {
                       clickable
                       label={genre.name}
                       variant="outlined"
+                      sx={{
+                        backgroundColor: "#808191",
+                        borderWidth: "0px",
+                        ":hover": {
+                          color: "white",
+                        },
+                      }}
                       onDelete={() => handleDeleteGenre(genre.id)}
                     />
                   </Grid>
                 );
               })}
             </>
-          )}
-        </Grid>
-      </Box>
-    </Container>
+          </Grid>
+        </Box>
+      )}
+    </>
   );
 };
-
-const Container = styled.div`
-  background-color: white;
-  width: 100%;
-  padding: 5%;
-`;

@@ -20,28 +20,32 @@ export const fetchSearch = async (type, q, page, genres) => {
   });
   const genreParameter =
     genreIds.length > 0 ? "&genre=" + genreIds.join(",") : "";
-  console.log(`/seav///vvrch/${type}?q=${q}&${page}${genreParameter}`);
   try {
+    console.log(`/search/${type}?q=${q}&${page}${genreParameter}`);
     const {
       data: { results },
-    } = await instance.get(`/sea//rch/${type}?q=${q}&${page}${genreParameter}`);
-    const message = results.length > 0 ? "Data fetched" : "No data found";
-    return { loading: false, status: 0, message, results };
+    } = await instance.get(`/search/${type}?q=${q}&${page}${genreParameter}`);
+
+    const message = results.length ? "Data fetched" : "No data found";
+    const icon = results.length ? "CheckCircle" : "Warning";
+    return { loading: false, status: 200, message, results, icon };
   } catch (e) {
-    console.log(e.response);
-    if (e.response != undefined && "status" in e.response) {
+    console.log(e);
+    if (e.response !== undefined && "status" in e.response) {
       return {
         loading: false,
         status: e.response.status,
         message: e.response.statusText,
         results: [],
+        icon: "Error",
       };
     } else {
       return {
         loading: false,
-        status: -1,
-        message: "Check your connection buddy",
+        status: 1000,
+        message: "Timeout",
         results: [],
+        icon: "TimerOff",
       };
     }
   }

@@ -1,30 +1,28 @@
-import React from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
+import { Box } from "@mui/material";
 import GIFScreen from "../components/gifviewer/GIFScreen";
 import HomeScreen from "../components/home/HomeScreen";
-import NavBar from "../ui/NavBar";
-import "../css/dashboard.css";
+import NavBar from "../components/NavBar";
 import JapaneseScreen from "../components/japanese/JapaneseScreen";
 import { JapaneseSearchPage } from "../components/japanese/search/JapaneseSearchPage";
-
+import { COLORS } from "../constants/colors";
 const DashboardRoutes = () => {
   return (
-    <div id="dashboard">
-      <NavBar />
-      <Switch>
-        <Route path="/home" component={HomeScreen} />
-        <Route exact path="/japanese" component={JapaneseScreen} />
-        <Route exact path="/japanese/search" component={JapaneseSearchPage} />
-
-        {/* <Route
-          exact
-          path="/anime/:type/:mal_id"
-          component={AnimeDetailsScreen}
-        /> */}
-        <Route path="/gifviewer" component={GIFScreen} />
-        <Route exact path="/" component={HomeScreen} />
-      </Switch>
-    </div>
+    <Box sx={{ display: "flex", backgroundColor: COLORS.PRIMARY }}>
+      <Box sx={{ width: "15%" }}>
+        <NavBar />
+      </Box>
+      <Box sx={{ width: "85%" }}>
+        <Switch>
+          <Route path="/home" component={HomeScreen} />
+          <Route exact path="/japanese" component={JapaneseScreen} />
+          <Route exact path="/japanese/search" component={JapaneseSearchPage} />
+          <Route path="/gifviewer" component={GIFScreen} />
+          <Route exact path="/" component={HomeScreen} />
+        </Switch>
+      </Box>
+    </Box>
   );
 };
+
 export default DashboardRoutes;
