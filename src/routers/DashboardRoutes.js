@@ -6,7 +6,13 @@ import NavBar from "../components/NavBar";
 import JapaneseScreen from "../components/japanese/JapaneseScreen";
 import { JapaneseSearchPage } from "../components/japanese/search/JapaneseSearchPage";
 import { COLORS } from "../constants/colors";
+import { useContext } from "react";
+import { AuthenticationContext } from "../authentication/AuthenticationContext";
+import { PrivateRouter } from "./PrivateRouter";
 const DashboardRoutes = () => {
+  const {
+    user: { logged },
+  } = useContext(AuthenticationContext);
   return (
     <Box sx={{ display: "flex", backgroundColor: COLORS.PRIMARY }}>
       <Box sx={{ width: "15%" }}>
@@ -15,7 +21,11 @@ const DashboardRoutes = () => {
       <Box sx={{ width: "85%" }}>
         <Switch>
           <Route path="/home" component={HomeScreen} />
-          <Route exact path="/japanese" component={JapaneseScreen} />
+          <PrivateRouter
+            isAuthenticated={logged}
+            path="/japanese"
+            component={JapaneseScreen}
+          />
           <Route exact path="/japanese/search" component={JapaneseSearchPage} />
           <Route path="/gifviewer" component={GIFScreen} />
           <Route exact path="/" component={HomeScreen} />

@@ -1,0 +1,35 @@
+.register__main {
+  width: 100vw;
+  height: 100vh;
+  background-color: $primary;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.register__box-container {
+  background-color: $white;
+  width: 20%;
+  padding: 30px;
+}
+.register__button {
+  background-color: $primary;
+  border-radius: 5px;
+  padding: 3px 15px;
+  animation: background-color 0.5s ease;
+  box-sizing: border-box;
+  border: 1px solid $primary;
+  &:hover {
+    border: 1px solid $primary;
+    background-color: $white;
+    color: $primary;
+  }
+}
+.register__box-button {
+  padding: 10px 0px;
+}
+.register__title {
+  color: lighten($color: $primary, $amount: 10);
+}
+.register__link {
+  color: $primary;
+}
