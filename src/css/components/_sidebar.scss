@@ -1,0 +1,27 @@
+.sidebar__main {
+  background-color: $primary;
+  width: 15vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 15px 10px;
+}
+.sidebar__box-link {
+  display: flex;
+  align-items: center;
+  padding: 10px 0px;
+  margin: 5px 0px;
+  border-radius: 10px;
+  animation: background-color 0.5 ease-in-out;
+  cursor: pointer;
+  &:hover {
+    background-color: lighten($color: $primary, $amount: 20);
+  }
+}
+.sidebar__box-link span {
+  text-decoration: none;
+  padding-left: 5px;
+  font-size: 13pt;
+  color: $white;
+}

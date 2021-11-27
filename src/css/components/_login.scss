@@ -41,8 +41,9 @@
   }
 }
 .login__button {
-  background-color: $primary;
+  background-color: $white;
   border-radius: 5px;
+  border-color: $primary;
   padding: 3px 15px;
   animation: background-color 0.5s ease;
   box-sizing: border-box;

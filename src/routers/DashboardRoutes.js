@@ -9,6 +9,7 @@ import { COLORS } from "../constants/colors";
 import { useContext } from "react";
 import { AuthenticationContext } from "../authentication/AuthenticationContext";
 import { PrivateRouter } from "./PrivateRouter";
+import { Sidebar } from "../components/Sidebar";
 const DashboardRoutes = () => {
   const {
     user: { logged },
@@ -16,7 +17,7 @@ const DashboardRoutes = () => {
   return (
     <Box sx={{ display: "flex", backgroundColor: COLORS.PRIMARY }}>
       <Box sx={{ width: "15%" }}>
-        <NavBar />
+        <Sidebar />
       </Box>
       <Box sx={{ width: "85%" }}>
         <Switch>

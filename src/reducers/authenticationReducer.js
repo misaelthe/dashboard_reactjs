@@ -3,9 +3,9 @@ import { authenticationTypes } from "../constants/authenticationTypes";
 export const authenticationReducer = (state, action) => {
   switch (action.type) {
     case authenticationTypes.login:
-      return { ...action.payload, logged: true };
+      return { uid: action.payload.uid, name: action.payload.name };
     case authenticationTypes.logout:
-      return { logged: false };
+      return {};
     default:
       return state;
   }
