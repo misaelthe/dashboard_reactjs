@@ -43,14 +43,20 @@
 .login__button {
   background-color: $white;
   border-radius: 5px;
-  border-color: $primary;
   padding: 3px 15px;
   animation: background-color 0.5s ease;
   box-sizing: border-box;
   border: 1px solid $primary;
   &:hover {
-    border: 1px solid $primary;
-    background-color: $white;
-    color: $primary;
+    background-color: $primary;
+    color: $white;
   }
+}
+.login__button-deactivated {
+  background-color: gray;
+  border-radius: 5px;
+  padding: 3px 15px;
+  animation: background-color 0.5s ease;
+  box-sizing: border-box;
+  border: 1px solid gray;
 }

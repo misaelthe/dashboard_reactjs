@@ -1,5 +1,4 @@
-import React from "react";
 import ReactDOM from "react-dom";
-import AppRouter from "./routers/AppRouter";
 import "./css/styles.scss";
-ReactDOM.render(<AppRouter />, document.getElementById("root"));
+import DashboardReact from "./DashboardReact";
+ReactDOM.render(<DashboardReact />, document.getElementById("root"));

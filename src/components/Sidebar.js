@@ -15,14 +15,12 @@ import { AuthenticationContext } from "../authentication/AuthenticationContext";
 import { authenticationTypes } from "../constants/authenticationTypes";
 export const Sidebar = () => {
   const history = useHistory();
-  const { user, dispatch } = useContext(AuthenticationContext);
   const [japaneseOpen, setJapaneseOpen] = useState(true);
   const showJapaneseItems = () => {
     setJapaneseOpen(!japaneseOpen);
   };
   const handleLogout = () => {
     localStorage.removeItem("user");
-    dispatch({ type: authenticationTypes.logout, payload: {} });
     history.replace("/login");
   };
   return (

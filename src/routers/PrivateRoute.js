@@ -1,10 +1,10 @@
 import { Route, Redirect } from "react-router-dom";
-export const PrivateRouter = ({
+export const PrivateRoute = ({
   isAuthenticated,
   component: Component,
   ...rest
 }) => {
-  localStorage.setItem("lastPath", rest.location.path);
+  console.log("priave " + isAuthenticated);
   return (
     <Route
       {...rest}

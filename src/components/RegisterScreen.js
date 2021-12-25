@@ -1,19 +1,68 @@
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Box, TextField } from "@mui/material";
-import { useState } from "react";
+import validator from "validator";
+import { registerWithEmailPassword } from "../actions/authenticationAction";
+import { removeUiError, setUiError } from "../actions/uiAction";
 const RegisterScreen = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const handleRegister = () => {};
+  const dispatch = useDispatch();
+  const { messageError } = useSelector((state) => state.ui);
+  const initialState = {
+    name: "",
+    password: "",
+    email: "",
+  };
+  const [formValues, setFormValues] = useState(initialState);
+  useEffect(() => {
+    return () => {
+      dispatch(removeUiError());
+    };
+  }, [dispatch]);
+  const { name, password, email } = formValues;
+  const handleRegister = () => {
+    if (validInputs()) {
+      dispatch(registerWithEmailPassword(email, password, name));
+      setFormValues(initialState);
+    }
+  };
+  const validInputs = () => {
+    if (name.trim().length < 1) {
+      dispatch(setUiError("Fix Name"));
+      return false;
+    }
+    if (!validator.isEmail(email)) {
+      dispatch(setUiError("Fix Email"));
+      return false;
+    }
+    if (password.trim().length < 1) {
+      dispatch(setUiError("Fix Password"));
+      return false;
+    }
+    dispatch(removeUiError);
+    return true;
+  };
   return (
     <div className="register__main">
       <div className="register__box-container">
         <h4 className="register__title">Register</h4>
         <Box>
           <TextField
-            label="User"
+            label="Name"
             variant="standard"
-            onChange={({ target: { value } }) => setUsername(value)}
+            onChange={({ target: { value } }) =>
+              setFormValues({ ...formValues, name: value })
+            }
+            fullWidth
+          />
+        </Box>
+        <Box>
+          <TextField
+            label="Email"
+            variant="standard"
+            onChange={({ target: { value } }) =>
+              setFormValues({ ...formValues, email: value })
+            }
             fullWidth
           />
         </Box>
@@ -22,20 +71,19 @@ const RegisterScreen = () => {
             label="Password"
             variant="standard"
             fullWidth
-            onChange={({ target: { value } }) => setPassword(value)}
+            onChange={({ target: { value } }) =>
+              setFormValues({ ...formValues, password: value })
+            }
           />
         </Box>
-        <Box>
-          <TextField
-            label="Confirm password"
-            password
-            variant="standard"
-            fullWidth
-            onChange={({ target: { value } }) => setPassword(value)}
-          />
-        </Box>
+        <div className="register__errorMessage">
+          {messageError && <p>{messageError}</p>}
+        </div>
         <div className="content-center-center register__box-button">
-          <button className="register__button" onClick={() => handleRegister()}>
+          <button
+            className="register__button"
+            onClick={(e) => handleRegister()}
+          >
             Register
           </button>
         </div>

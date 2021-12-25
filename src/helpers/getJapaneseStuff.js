@@ -21,6 +21,7 @@ export const fetchSearch = async (type, q, page, genres) => {
   const genreParameter =
     genreIds.length > 0 ? "&genre=" + genreIds.join(",") : "";
   try {
+    
     console.log(`/search/${type}?q=${q}&${page}${genreParameter}`);
     const {
       data: { results },

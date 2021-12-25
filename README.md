@@ -5,6 +5,7 @@ ctrl+shift+enter new line above
 ctrl+shift+l -------------------
 ctrl+shift+k
 alt+shift+updown
+//buscar de debounce Throttling
 
 ## 1.4
 
